@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="About Alex Cipher - Full Stack Developer specializing in cyberpunk-inspired digital experiences. Learn about my technical philosophy, development approach, and professional journey.">
+    <meta name="keywords" content="about developer, technical philosophy, full stack developer story, cyberpunk developer, web development expertise">
+    <meta name="author" content="Alex Cipher">
+    <title>About - Alex Cipher | Digital Craftsman in the Neon Underground</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <style>
+        /* Custom animations for about section */
+        @keyframes skill-fill {
+            from { width: 0; }
+            to { width: var(--skill-width); }
+        }
+
+        @keyframes float-vertical {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+
+        @keyframes reveal-text {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes rotate-border {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .skill-bar {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-fill {
+            animation: skill-fill 1.5s ease-out forwards;
+            box-shadow: 0 0 20px currentColor;
+        }
+
+        .skill-bar.animate .skill-fill {
+            animation-play-state: running;
+        }
+
+        .timeline-item {
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: all 0.6s ease-out;
+        }
+
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .timeline-item:nth-child(even) {
+            transform: translateX(30px);
+        }
+
+        .timeline-item:nth-child(even).visible {
+            transform: translateX(0);
+        }
+
+        .philosophy-text {
+            opacity: 0;
+        }
+
+        .philosophy-text.reveal {
+            animation: reveal-text 0.8s ease-out forwards;
+        }
+
+        .rotating-border {
+            position: absolute;
+            inset: -2px;
+            background: linear-gradient(45deg, var(--color-primary), var(--color-secondary), var(--color-accent), var(--color-primary));
+            border-radius: 50%;
+            animation: rotate-border 3s linear infinite;
+            z-index: -1;
+        }
+
+        .testimonial-card {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 0.5s ease-out;
+        }
+
+        .testimonial-card.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .tech-icon {
+            transition: all 0.3s ease-out;
+        }
+
+        .tech-icon:hover {
+            transform: translateY(-5px) scale(1.1);
+        }
+
+        .proficiency-ring {
+            stroke-dasharray: 283;
+            stroke-dashoffset: 283;
+            transition: stroke-dashoffset 1.5s ease-out;
+        }
+
+        .proficiency-ring.animate {
+            stroke-dashoffset: calc(283 - (283 * var(--proficiency) / 100));
+        }
+    </style>
+  <script type="module" async src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fneondevpo4985back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.12"></script>
+  <script type="module" defer src="https://static.rocket.new/rocket-shot.js?v=0.0.2"></script>
+  </head>
+<body class="bg-background text-text-primary overflow-x-hidden">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 backdrop-cyberpunk border-b border-surface-light transition-all duration-300" id="navbar">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <a href="hero_landing.html" class="flex items-center gap-3 group">
+                    <svg class="w-10 h-10 transition-transform duration-300 group-hover:scale-110" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20 5L35 12.5V27.5L20 35L5 27.5V12.5L20 5Z" stroke="url(#logo-gradient)" stroke-width="2" fill="none"/>
+                        <circle cx="20" cy="20" r="6" fill="url(#logo-gradient)" class="animate-pulse-neon"/>
+                        <defs>
+                            <linearGradient id="logo-gradient" x1="5" y1="5" x2="35" y2="35">
+                                <stop offset="0%" style="stop-color:#a855f7"/>
+                                <stop offset="100%" style="stop-color:#3b82f6"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <span class="font-headline text-xl font-bold text-gradient-primary">NeonDev</span>
+                </a>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="hero_landing.html" class="nav-link font-body text-sm font-medium text-text-primary hover:text-primary">Home</a>
+                    <a href="about.html" class="nav-link active font-body text-sm font-medium text-primary">About</a>
+                    <a href="projects.html" class="nav-link font-body text-sm font-medium text-text-primary hover:text-primary">Projects</a>
+                    <a href="code_laboratory.html" class="nav-link font-body text-sm font-medium text-text-primary hover:text-primary">Code Lab</a>
+                    <a href="resume_vault.html" class="nav-link font-body text-sm font-medium text-text-primary hover:text-primary">Resume</a>
+                    <a href="contact_terminal.html" class="btn-primary text-sm px-6 py-2">Contact</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="md:hidden text-primary hover:text-primary-400 transition-colors" id="mobile-menu-btn" aria-label="Toggle mobile menu">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <div class="hidden md:hidden mt-4 pb-4 border-t border-surface-light" id="mobile-menu">
+                <div class="flex flex-col gap-4 mt-4">
+                    <a href="hero_landing.html" class="font-body text-sm font-medium text-text-primary hover:text-primary">Home</a>
+                    <a href="about.html" class="font-body text-sm font-medium text-primary">About</a>
+                    <a href="projects.html" class="font-body text-sm font-medium text-text-primary hover:text-primary">Projects</a>
+                    <a href="code_laboratory.html" class="font-body text-sm font-medium text-text-primary hover:text-primary">Code Lab</a>
+                    <a href="resume_vault.html" class="font-body text-sm font-medium text-text-primary hover:text-primary">Resume</a>
+                    <a href="contact_terminal.html" class="btn-primary text-sm px-6 py-2 text-center">Contact</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5"></div>
+
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center max-w-4xl mx-auto space-y-6 fade-in">
+                <h1 class="font-headline text-5xl md:text-6xl lg:text-7xl font-bold">
+                    <span class="text-gradient-primary">About Me</span>
+                </h1>
+                <p class="font-body text-xl md:text-2xl text-text-secondary leading-relaxed">
+                    Digital Craftsman in the Neon Underground
+                </p>
+                <div class="flex items-center justify-center gap-3 pt-4">
+                    <div class="w-20 h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent"></div>
+                    <svg class="w-6 h-6 text-primary animate-pulse" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                    </svg>
+                    <div class="w-20 h-0.5 bg-gradient-to-r from-primary via-transparent to-transparent"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Personal Story Section -->
+    <section class="py-20 relative">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <!-- Photo with Cyberpunk Border -->
+                <div class="relative slide-in-left">
+                    <div class="relative w-full max-w-md mx-auto">
+                        <!-- Rotating Border Effect -->
+                        <div class="rotating-border"></div>
+
+                        <!-- Photo Container -->
+                        <div class="relative rounded-full overflow-hidden border-4 border-surface-light aspect-square">
+                            <img src="https://images.unsplash.com/photo-1542546068979-b6affb46ea8f"
+                                 alt="Alex Cipher - Full Stack Developer working in a cyberpunk-inspired workspace with neon lighting and multiple monitors displaying code"
+                                 class="w-full h-full object-cover"
+                                 onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800&auto=format&fit=crop'; this.onerror=null;">
+                        </div>
+
+                        <!-- Floating Elements -->
+                        <div class="absolute -top-4 -right-4 w-20 h-20 border-2 border-primary rounded-lg opacity-50" style="animation: float-vertical 3s ease-in-out infinite;"></div>
+                        <div class="absolute -bottom-4 -left-4 w-16 h-16 border-2 border-secondary rounded-full opacity-50" style="animation: float-vertical 3s ease-in-out infinite; animation-delay: 1s;"></div>
+                    </div>
+                </div>
+
+                <!-- Story Content -->
+                <div class="space-y-6 slide-in-right">
+                    <h2 class="font-headline text-3xl md:text-4xl font-bold text-gradient-primary">
+                        My Journey
+                    </h2>
+
+                    <div class="space-y-4 font-body text-text-secondary leading-relaxed">
+                        <p class="philosophy-text">
+                            I'm Alex Cipher, a full-stack developer who believes that code is more than just logic—it's an art form. My journey into the digital realm began over 5 years ago, driven by a fascination with how technology can transform ideas into immersive experiences.
+                        </p>
+
+                        <p class="philosophy-text" style="animation-delay: 0.2s;">
+                            Growing up in the intersection of technology and creativity, I discovered that the most powerful applications aren't just functional—they're experiences that resonate with users on an emotional level. This realization shaped my approach to development: every line of code should serve both purpose and aesthetics.
+                        </p>
+
+                        <p class="philosophy-text" style="animation-delay: 0.4s;">
+                            Today, I specialize in crafting digital experiences that blend cutting-edge technology with compelling design. Whether it's building scalable web applications, designing intuitive interfaces, or architecting complex systems, I approach each project as an opportunity to push boundaries and create something extraordinary.
+                        </p>
+                    </div>
+
+                    <div class="flex flex-wrap gap-4 pt-4">
+                        <div class="flex items-center gap-2 bg-surface border border-primary/30 rounded-lg px-4 py-2">
+                            <svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                            <span class="font-code text-sm text-text-primary">5+ Years Experience</span>
+                        </div>
+                        <div class="flex items-center gap-2 bg-surface border border-secondary/30 rounded-lg px-4 py-2">
+                            <svg class="w-5 h-5 text-secondary" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="font-code text-sm text-text-primary">50+ Projects</span>
+                        </div>
+                        <div class="flex items-center gap-2 bg-surface border border-accent/30 rounded-lg px-4 py-2">
+                            <svg class="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"></path>
+                            </svg>
+                            <span class="font-code text-sm text-text-primary">30+ Happy Clients</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technical Philosophy Section -->
+    <section class="py-20 bg-surface/30 border-y border-surface-light">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto text-center space-y-8">
+                <h2 class="font-headline text-3xl md:text-4xl font-bold text-gradient-primary">
+                    Technical Philosophy
+                </h2>
+
+                <div class="grid md:grid-cols-3 gap-8 pt-8">
+                    <div class="card-cyberpunk space-y-4 group">
+                        <div class="w-16 h-16 mx-auto rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                            <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="font-cta text-xl font-bold text-text-primary">Innovation First</h3>
+                        <p class="font-body text-sm text-text-secondary">
+                            Embracing cutting-edge technologies while maintaining practical solutions that solve real problems.
+                        </p>
+                    </div>
+
+                    <div class="card-cyberpunk space-y-4 group">
+                        <div class="w-16 h-16 mx-auto rounded-full bg-secondary/10 flex items-center justify-center group-hover:bg-secondary/20 transition-colors">
+                            <svg class="w-8 h-8 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
+                            </svg>
+                        </div>
+                        <h3 class="font-cta text-xl font-bold text-text-primary">Design Matters</h3>
+                        <p class="font-body text-sm text-text-secondary">
+                            Beautiful interfaces aren't just aesthetic—they're functional art that enhances user experience.
+                        </p>
+                    </div>
+
+                    <div class="card-cyberpunk space-y-4 group">
+                        <div class="w-16 h-16 mx-auto rounded-full bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors">
+                            <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="font-cta text-xl font-bold text-text-primary">Performance Driven</h3>
+                        <p class="font-body text-sm text-text-secondary">
+                            Every millisecond counts. Optimized code delivers seamless experiences that users love.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="pt-8 space-y-4">
+                    <blockquote class="font-headline text-2xl md:text-3xl text-gradient-primary italic">
+                        "Code that glows with purpose, where function meets form"
+                    </blockquote>
+                    <p class="font-body text-text-secondary">
+                        My development philosophy centers on creating digital experiences that are both technically excellent and emotionally resonant.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="py-20">
+        <div class="container mx-auto px-6">
+            <div class="max-w-5xl mx-auto">
+                <div class="text-center space-y-4 mb-12">
+                    <h2 class="font-headline text-3xl md:text-4xl font-bold text-gradient-primary">
+                        Technical Expertise
+                    </h2>
+                    <p class="font-body text-text-secondary">
+                        Mastery across the full development stack
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Frontend Skills -->
+                    <div class="space-y-6">
+                        <h3 class="font-cta text-xl font-bold text-primary flex items-center gap-2">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"></path>
+                            </svg>
+                            Frontend Development
+                        </h3>
+
+                        <div class="space-y-4">
+                            <div class="skill-bar" data-skill="95">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="font-code text-sm text-text-primary">React / Next.js</span>
+                                    <span class="font-code text-sm text-primary">95%</span>
+                                </div>
+                                <div class="h-2 bg-surface-light rounded-full overflow-hidden">
+                                    <div class="skill-fill h-full bg-primary rounded-full" style="--skill-width: 95%;"></div>
+                                </div>
+                            </div>
+
+                            <div class="skill-bar" data-skill="92">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="font-code text-sm text-text-primary">TypeScript / JavaScript</span>
+                                    <span class="font-code text-sm text-primary">92%</span>
+                                </div>
+                                <div class="h-2 bg-surface-light rounded-full overflow-hidden">
+                                    <div class="skill-fill h-full bg-primary rounded-full" style="--skill-width: 92%;"></div>
+                                </div>
+                            </div>
+
+                            <div class="skill-bar" data-skill="90">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="font-code text-sm text-text-primary">Tailwind CSS / Styled Components</span>
+                                    <span class="font-code text-sm text-primary">90%</span>
+                                </div>
+                                <div class="h-2 bg-surface-light rounded-full overflow-hidden">
+                                    <div class="skill-fill h-full bg-primary rounded-full" style="--skill-width: 90%;"></div>
+                                </div>
+                            </div>
+
+                            <div class="skill-bar" data-skill="88">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="font-code text-sm text-text-primary">Vue.js / Nuxt.js</span>
+                                    <span class="font-code text-sm text-primary">88%</span>
+                                </div>
+                                <div class="h-2 bg-surface-light rounded-full overflow-hidden">
+                                    <div class="skill-fill h-full bg-primary rounded-full" style="--skill-width: 88%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Backend Skills -->
+                    <div class="space-y-6">
+                        <h3 class="font-cta text-xl font-bold text-secondary flex items-center gap-2">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm3.293 1.293a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 01-1.414-1.414L7.586 10 5.293 7.707a1 1 0 010-1.414zM11 12a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path>
+                            </svg>
+                            Backend Development
+                        </h3>
+
+                        <div class="space-y-4">
+                            <div class="skill-bar" data-skill="93">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="font-code text-sm text-text-primary">Node.js / Express</span>
+                                    <span class="font-code text-sm text-secondary">93%</span>
+                                </div>
+                                <div class="h-2 bg-surface-light rounded-full overflow-hidden">
+                                    <div class="skill-fill h-full bg-secondary rounded-full" style="--skill-width: 93%;"></div>
+                                </div>
+                            </div>
+
+                            <div class="skill-bar" data-skill="89">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="font-code text-sm text-text-primary">Python / Django</span>
+                                    <span class="font-code text-sm text-secondary">89%</span>
+                                </div>
+                                <div class="h-2 bg-surface-light rounded-full overflow-hidden">
+                                    <div class="skill-fill h-full bg-secondary rounded-full" style="--skill-width: 89%;"></div>
+                                </div>
+                            </div>
+
+                            <div class="skill-bar" data-skill="91">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="font-code text-sm text-text-primary">PostgreSQL / MongoDB</span>
+                                    <span class="font-code text-sm text-secondary">91%</span>
+                                </div>
+                                <div class="h-2 bg-surface-light rounded-full overflow-hidden">
+                                    <div class="skill-fill h-full bg-secondary rounded-full" style="--skill-width: 91%;"></div>
+                                </div>
+                            </div>
+
+                            <div class="skill-bar" data-skill="87">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="font-code text-sm text-text-primary">GraphQL / REST APIs</span>
+                                    <span class="font-code text-sm text-secondary">87%</span>
+                                </div>
+                                <div class="h-2 bg-surface-light rounded-full overflow-hidden">
+                                    <div class="skill-fill h-full bg-secondary rounded-full" style="--skill-width: 87%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tech Stack Icons -->
+                <div class="mt-16">
+                    <h3 class="font-cta text-xl font-bold text-accent text-center mb-8">
+                        Technologies & Tools
+                    </h3>
+                    <div class="grid grid-cols-3 md:grid-cols-6 gap-6">
+                        <div class="tech-icon flex flex-col items-center gap-2 group cursor-pointer">
+                            <div class="w-16 h-16 rounded-lg bg-surface border border-surface-light flex items-center justify-center group-hover:border-primary transition-colors">
+                                <svg class="w-10 h-10 text-text-secondary group-hover:text-primary transition-colors" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M14.23 12.004a2.236 2.236 0 0 1-2.235 2.236 2.236 2.236 0 0 1-2.236-2.236 2.236 2.236 0 0 1 2.235-2.236 2.236 2.236 0 0 1 2.236 2.236zm2.648-10.69c-1.346 0-3.107.96-4.888 2.622-1.78-1.653-3.542-2.602-4.887-2.602-.41 0-.783.093-1.106.278-1.375.793-1.683 3.264-.973 6.365C1.98 8.917 0 10.42 0 12.004c0 1.59 1.99 3.097 5.043 4.03-.704 3.113-.39 5.588.988 6.38.32.187.69.275 1.102.275 1.345 0 3.107-.96 4.888-2.624 1.78 1.654 3.542 2.603 4.887 2.603.41 0 .783-.09 1.106-.275 1.374-.792 1.683-3.263.973-6.365C22.02 15.096 24 13.59 24 12.004c0-1.59-1.99-3.097-5.043-4.032.704-3.11.39-5.587-.988-6.38-.318-.184-.688-.277-1.092-.278zm-.005 1.09v.006c.225 0 .406.044.558.127.666.382.955 1.835.73 3.704-.054.46-.142.945-.25 1.44-.96-.236-2.006-.417-3.107-.534-.66-.905-1.345-1.727-2.035-2.447 1.592-1.48 3.087-2.292 4.105-2.295zm-9.77.02c1.012 0 2.514.808 4.11 2.28-.686.72-1.37 1.537-2.02 2.442-1.107.117-2.154.298-3.113.538-.112-.49-.195-.964-.254-1.42-.23-1.868.054-3.32.714-3.707.19-.09.4-.127.563-.132zm4.882 3.05c.455.468.91.992 1.36 1.564-.44-.02-.89-.034-1.345-.034-.46 0-.915.01-1.36.034.44-.572.895-1.096 1.345-1.565zM12 8.1c.74 0 1.477.034 2.202.093.406.582.802 1.203 1.183 1.86.372.64.71 1.29 1.018 1.946-.308.655-.646 1.31-1.013 1.95-.38.66-.773 1.288-1.18 1.87-.728.063-1.466.098-2.21.098-.74 0-1.477-.035-2.202-.093-.406-.582-.802-1.204-1.183-1.86-.372-.64-.71-1.29-1.018-1.946.303-.657.646-1.313 1.013-1.954.38-.66.773-1.286 1.18-1.868.728-.064 1.466-.098 2.21-.098zm-3.635.254c-.24.377-.48.763-.704 1.16-.225.39-.435.782-.635 1.174-.265-.656-.49-1.31-.676-1.947.64-.15 1.315-.283 2.015-.386zm7.26 0c.695.103 1.365.23 2.006.387-.18.632-.405 1.282-.66 1.933-.2-.39-.41-.783-.64-1.174-.225-.392-.465-.774-.705-1.146zm3.063.675c.484.15.944.317 1.375.498 1.732.74 2.852 1.708 2.852 2.476-.005.768-1.125 1.74-2.857 2.475-.42.18-.88.342-1.355.493-.28-.958-.646-1.956-1.1-2.98.45-1.017.81-2.01 1.085-2.964zm-13.395.004c.278.96.645 1.957 1.1 2.98-.45 1.017-.812 2.01-1.086 2.964-.484-.15-.944-.318-1.37-.5-1.732-.737-2.852-1.706-2.852-2.474 0-.768 1.12-1.742 2.852-2.476.42-.18.88-.342 1.356-.494zm11.678 4.28c.265.657.49 1.312.676 1.948-.64.157-1.316.29-2.016.39.24-.375.48-.762.705-1.158.225-.39.435-.788.636-1.18zm-9.945.02c.2.392.41.783.64 1.175.23.39.465.772.705 1.143-.695-.102-1.365-.23-2.006-.386.18-.63.406-1.282.66-1.933zM17.92 16.32c.112.493.2.968.254 1.423.23 1.868-.054 3.32-.714 3.708-.147.09-.338.128-.563.128-1.012 0-2.514-.807-4.11-2.28.686-.72 1.37-1.536 2.02-2.44 1.107-.118 2.154-.3 3.113-.54zm-11.83.01c.96.234 2.006.415 3.107.532.66.905 1.345 1.727 2.035 2.446-1.595 1.483-3.092 2.295-4.11 2.295-.22-.005-.406-.05-.553-.132-.666-.38-.955-1.834-.73-3.703.054-.46.142-.944.25-1.438zm4.56.64c.44.02.89.034 1.345.034.46 0 .915-.01 1.36-.034-.44.572-.895 1.095-1.345 1.565-.455-.47-.91-.993-1.36-1.565z"/>
+                                </svg>
+                            </div>
+                            <span class="font-code text-xs text-text-tertiary group-hover:text-primary transition-colors">React</span>
+                        </div>
+
+                        <div class="tech-icon flex flex-col items-center gap-2 group cursor-pointer">
+                            <div class="w-16 h-16 rounded-lg bg-surface border border-surface-light flex items-center justify-center group-hover:border-secondary transition-colors">
+                                <svg class="w-10 h-10 text-text-secondary group-hover:text-secondary transition-colors" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M11.998 24c-6.627 0-12-5.373-12-12s5.373-12 12-12 12 5.373 12 12-5.373 12-12 12zm0-22c-5.523 0-10 4.477-10 10s4.477 10 10 10 10-4.477 10-10-4.477-10-10-10zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8zm0-14c-3.309 0-6 2.691-6 6s2.691 6 6 6 6-2.691 6-6-2.691-6-6-6z"/>
+                                </svg>
+                            </div>
+                            <span class="font-code text-xs text-text-tertiary group-hover:text-secondary transition-colors">Node.js</span>
+                        </div>
+
+                        <div class="tech-icon flex flex-col items-center gap-2 group cursor-pointer">
+                            <div class="w-16 h-16 rounded-lg bg-surface border border-surface-light flex items-center justify-center group-hover:border-accent transition-colors">
+                                <svg class="w-10 h-10 text-text-secondary group-hover:text-accent transition-colors" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M1.125 0C.502 0 0 .502 0 1.125v21.75C0 23.498.502 24 1.125 24h21.75c.623 0 1.125-.502 1.125-1.125V1.125C24 .502 23.498 0 22.875 0zm17.363 9.75c.612 0 1.154.037 1.627.111a6.38 6.38 0 0 1 1.306.34v2.458a3.95 3.95 0 0 0-.643-.361 5.093 5.093 0 0 0-.717-.26 5.453 5.453 0 0 0-1.426-.2c-.3 0-.573.028-.819.086a2.1 2.1 0 0 0-.623.242c-.17.104-.3.229-.393.374a.888.888 0 0 0-.14.49c0 .196.053.373.156.529.104.156.252.304.443.444s.423.276.696.41c.273.135.582.274.926.416.47.197.892.407 1.266.628.374.222.695.473.963.753.268.279.472.598.614.957.142.359.214.776.214 1.253 0 .657-.125 1.21-.373 1.656a3.033 3.033 0 0 1-1.012 1.085 4.38 4.38 0 0 1-1.487.596c-.566.12-1.163.18-1.79.18a9.916 9.916 0 0 1-1.84-.164 5.544 5.544 0 0 1-1.512-.493v-2.63a5.033 5.033 0 0 0 3.237 1.2c.333 0 .624-.03.872-.09.249-.06.456-.144.623-.25.166-.108.29-.234.373-.38a1.023 1.023 0 0 0-.074-1.089 2.12 2.12 0 0 0-.537-.5 5.597 5.597 0 0 0-.807-.444 27.72 27.72 0 0 0-1.007-.436c-.918-.383-1.602-.852-2.053-1.405-.45-.553-.676-1.222-.676-2.005 0-.614.123-1.141.369-1.582.246-.441.58-.804 1.004-1.089a4.494 4.494 0 0 1 1.47-.629 7.536 7.536 0 0 1 1.77-.201zm-15.113.188h9.563v2.166H9.506v9.646H6.789v-9.646H3.375z"/>
+                                </svg>
+                            </div>
+                            <span class="font-code text-xs text-text-tertiary group-hover:text-accent transition-colors">TypeScript</span>
+                        </div>
+
+                        <div class="tech-icon flex flex-col items-center gap-2 group cursor-pointer">
+                            <div class="w-16 h-16 rounded-lg bg-surface border border-surface-light flex items-center justify-center group-hover:border-primary transition-colors">
+                                <svg class="w-10 h-10 text-text-secondary group-hover:text-primary transition-colors" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12.001 4.8c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624C13.666 10.618 15.027 12 18.001 12c3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C16.337 6.182 14.976 4.8 12.001 4.8zm-6 7.2c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624 1.177 1.194 2.538 2.576 5.512 2.576 3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C10.337 13.382 8.976 12 6.001 12z"/>
+                                </svg>
+                            </div>
+                            <span class="font-code text-xs text-text-tertiary group-hover:text-primary transition-colors">Tailwind</span>
+                        </div>
+
+                        <div class="tech-icon flex flex-col items-center gap-2 group cursor-pointer">
+                            <div class="w-16 h-16 rounded-lg bg-surface border border-surface-light flex items-center justify-center group-hover:border-secondary transition-colors">
+                                <svg class="w-10 h-10 text-text-secondary group-hover:text-secondary transition-colors" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                                </svg>
+                            </div>
+                            <span class="font-code text-xs text-text-tertiary group-hover:text-secondary transition-colors">Git</span>
+                        </div>
+
+                        <div class="tech-icon flex flex-col items-center gap-2 group cursor-pointer">
+                            <div class="w-16 h-16 rounded-lg bg-surface border border-surface-light flex items-center justify-center group-hover:border-accent transition-colors">
+                                <svg class="w-10 h-10 text-text-secondary group-hover:text-accent transition-colors" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M13.5 2c-5.621 0-10.211 4.443-10.475 10h-3.025l5 6.625 5-6.625h-2.975c.257-3.351 3.06-6 6.475-6 3.584 0 6.5 2.916 6.5 6.5s-2.916 6.5-6.5 6.5c-1.863 0-3.542-.793-4.728-2.053l-2.427 3.216c1.877 1.754 4.389 2.837 7.155 2.837 5.79 0 10.5-4.71 10.5-10.5s-4.71-10.5-10.5-10.5z"/>
+                                </svg>
+                            </div>
+                            <span class="font-code text-xs text-text-tertiary group-hover:text-accent transition-colors">Docker</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Professional Timeline -->
+    <section class="py-20 bg-surface/30 border-y border-surface-light">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center space-y-4 mb-16">
+                    <h2 class="font-headline text-3xl md:text-4xl font-bold text-gradient-primary">
+                        Professional Journey
+                    </h2>
+                    <p class="font-body text-text-secondary">
+                        Key milestones in my development career
+                    </p>
+                </div>
+
+                <div class="relative">
+                    <!-- Timeline Line -->
+                    <div class="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-secondary to-accent"></div>
+
+                    <!-- Timeline Items -->
+                    <div class="space-y-12">
+                        <!-- 2025 -->
+                        <div class="timeline-item relative pl-20 md:pl-0 md:grid md:grid-cols-2 md:gap-8">
+                            <div class="md:text-right md:pr-8">
+                                <div class="inline-block bg-primary/10 border border-primary rounded-lg px-4 py-2 mb-4">
+                                    <span class="font-code text-sm text-primary">2025 - Present</span>
+                                </div>
+                                <h3 class="font-cta text-xl font-bold text-text-primary mb-2">Senior Full Stack Developer</h3>
+                                <p class="font-body text-sm text-text-secondary mb-3">TechVision Solutions</p>
+                                <p class="font-body text-sm text-text-tertiary">
+                                    Leading development of enterprise-scale applications with focus on performance optimization and user experience. Mentoring junior developers and establishing best practices.
+                                </p>
+                            </div>
+                            <div class="hidden md:block"></div>
+                            <div class="absolute left-6 md:left-1/2 top-0 w-5 h-5 -ml-2.5 rounded-full bg-primary border-4 border-background shadow-glow-primary"></div>
+                        </div>
+
+                        <!-- 2023 -->
+                        <div class="timeline-item relative pl-20 md:pl-0 md:grid md:grid-cols-2 md:gap-8">
+                            <div class="hidden md:block"></div>
+                            <div class="md:pl-8">
+                                <div class="inline-block bg-secondary/10 border border-secondary rounded-lg px-4 py-2 mb-4">
+                                    <span class="font-code text-sm text-secondary">2023 - 2024</span>
+                                </div>
+                                <h3 class="font-cta text-xl font-bold text-text-primary mb-2">Full Stack Developer</h3>
+                                <p class="font-body text-sm text-text-secondary mb-3">Digital Innovations Inc.</p>
+                                <p class="font-body text-sm text-text-tertiary">
+                                    Developed and maintained multiple client projects using React, Node.js, and cloud technologies. Improved application performance by 40% through optimization techniques.
+                                </p>
+                            </div>
+                            <div class="absolute left-6 md:left-1/2 top-0 w-5 h-5 -ml-2.5 rounded-full bg-secondary border-4 border-background shadow-glow-secondary"></div>
+                        </div>
+
+                        <!-- 2021 -->
+                        <div class="timeline-item relative pl-20 md:pl-0 md:grid md:grid-cols-2 md:gap-8">
+                            <div class="md:text-right md:pr-8">
+                                <div class="inline-block bg-accent/10 border border-accent rounded-lg px-4 py-2 mb-4">
+                                    <span class="font-code text-sm text-accent">2021 - 2023</span>
+                                </div>
+                                <h3 class="font-cta text-xl font-bold text-text-primary mb-2">Frontend Developer</h3>
+                                <p class="font-body text-sm text-text-secondary mb-3">Creative Web Studio</p>
+                                <p class="font-body text-sm text-text-tertiary">
+                                    Specialized in creating responsive, accessible web interfaces. Collaborated with designers to bring creative visions to life with pixel-perfect implementations.
+                                </p>
+                            </div>
+                            <div class="hidden md:block"></div>
+                            <div class="absolute left-6 md:left-1/2 top-0 w-5 h-5 -ml-2.5 rounded-full bg-accent border-4 border-background shadow-glow-accent"></div>
+                        </div>
+
+                        <!-- 2020 -->
+                        <div class="timeline-item relative pl-20 md:pl-0 md:grid md:grid-cols-2 md:gap-8">
+                            <div class="hidden md:block"></div>
+                            <div class="md:pl-8">
+                                <div class="inline-block bg-primary/10 border border-primary rounded-lg px-4 py-2 mb-4">
+                                    <span class="font-code text-sm text-primary">2020 - 2021</span>
+                                </div>
+                                <h3 class="font-cta text-xl font-bold text-text-primary mb-2">Junior Developer</h3>
+                                <p class="font-body text-sm text-text-secondary mb-3">StartUp Labs</p>
+                                <p class="font-body text-sm text-text-tertiary">
+                                    Started professional journey building web applications and learning industry best practices. Contributed to multiple successful product launches.
+                                </p>
+                            </div>
+                            <div class="absolute left-6 md:left-1/2 top-0 w-5 h-5 -ml-2.5 rounded-full bg-primary border-4 border-background shadow-glow-primary"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-20">
+        <div class="container mx-auto px-6">
+            <div class="max-w-5xl mx-auto">
+                <div class="text-center space-y-4 mb-12">
+                    <h2 class="font-headline text-3xl md:text-4xl font-bold text-gradient-primary">
+                        Client Testimonials
+                    </h2>
+                    <p class="font-body text-text-secondary">
+                        What people say about working with me
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="testimonial-card card-cyberpunk space-y-4">
+                        <div class="flex items-center gap-4">
+                            <img src="https://img.rocket.new/generatedImages/rocket_gen_img_1614f696c-1763295242937.png"
+                                 alt="Portrait of Michael Chen, CEO of TechStart, wearing business casual attire"
+                                 class="w-16 h-16 rounded-full object-cover border-2 border-primary"
+                                 onerror="this.src='https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=200'; this.onerror=null;">
+                            <div>
+                                <h4 class="font-cta text-lg font-bold text-text-primary">Michael Chen</h4>
+                                <p class="font-code text-xs text-text-tertiary">CEO, TechStart</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-1">
+                            <svg class="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                            <svg class="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                            <svg class="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                            <svg class="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                            <svg class="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                        </div>
+                        <p class="font-body text-sm text-text-secondary italic">
+                            "Alex transformed our vision into a stunning, high-performance application. His attention to detail and technical expertise exceeded our expectations."
+                        </p>
+                    </div>
+
+                    <div class="testimonial-card card-cyberpunk space-y-4" style="animation-delay: 0.1s;">
+                        <div class="flex items-center gap-4">
+                            <img src="https://img.rocket.new/generatedImages/rocket_gen_img_1ed4c1572-1763295037377.png"
+                                 alt="Portrait of Sarah Johnson, Product Manager at InnovateCo, smiling professionally"
+                                 class="w-16 h-16 rounded-full object-cover border-2 border-secondary"
+                                 onerror="this.src='https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=200&auto=format&fit=crop'; this.onerror=null;">
+                            <div>
+                                <h4 class="font-cta text-lg font-bold text-text-primary">Sarah Johnson</h4>
+                                <p class="font-code text-xs text-text-tertiary">PM, InnovateCo</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-1">
+                            <svg class="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                            <svg class="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                            <svg class="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                            <svg class="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                            <svg class="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                        </div>
+                        <p class="font-body text-sm text-text-secondary italic">
+                            "Working with Alex was a game-changer for our project. His ability to understand requirements and deliver elegant solutions is remarkable."
+                        </p>
+                    </div>
+
+                    <div class="testimonial-card card-cyberpunk space-y-4" style="animation-delay: 0.2s;">
+                        <div class="flex items-center gap-4">
+                            <img src="https://img.rocket.new/generatedImages/rocket_gen_img_1c0b1b3ef-1763296195046.png"
+                                 alt="Portrait of David Martinez, CTO of FutureTech, in professional setting"
+                                 class="w-16 h-16 rounded-full object-cover border-2 border-accent"
+                                 onerror="this.src='https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=200'; this.onerror=null;">
+                            <div>
+                                <h4 class="font-cta text-lg font-bold text-text-primary">David Martinez</h4>
+                                <p class="font-code text-xs text-text-tertiary">CTO, FutureTech</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-1">
+                            <svg class="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                            <svg class="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                            <svg class="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                            <svg class="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                            <svg class="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                        </div>
+                        <p class="font-body text-sm text-text-secondary italic">
+                            "Alex's code quality and architectural decisions have set a new standard for our development team. A true professional."
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-gradient-to-br from-primary/10 via-transparent to-secondary/10 border-y border-surface-light">
+        <div class="container mx-auto px-6">
+            <div class="max-w-3xl mx-auto text-center space-y-8">
+                <h2 class="font-headline text-3xl md:text-4xl font-bold text-gradient-primary">
+                    Let's Build Something Amazing
+                </h2>
+                <p class="font-body text-lg text-text-secondary">
+                    Ready to bring your digital vision to life? Let's collaborate and create experiences that resonate.
+                </p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="projects.html" class="btn-primary inline-flex items-center gap-2 group">
+                        <span>View My Work</span>
+                        <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                        </svg>
+                    </a>
+                    <a href="contact_terminal.html" class="btn-outline inline-flex items-center gap-2 group">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                        <span>Get In Touch</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-surface border-t border-surface-light py-8">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                <p class="font-body text-sm text-text-tertiary">© 2025 NeonDev. All Rights Reserved.</p>
+                <div class="flex items-center gap-6">
+                    <a href="javascript:void(0)" class="font-body text-sm text-text-tertiary hover:text-primary transition-colors">Privacy Policy</a>
+                    <a href="javascript:void(0)" class="font-body text-sm text-text-tertiary hover:text-primary transition-colors">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 100) {
+                navbar.classList.add('shadow-lg');
+            } else {
+                navbar.classList.remove('shadow-lg');
+            }
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.2,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        // Philosophy text reveal
+        const philosophyTexts = document.querySelectorAll('.philosophy-text');
+        const philosophyObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('reveal');
+                }
+            });
+        }, observerOptions);
+
+        philosophyTexts.forEach(text => philosophyObserver.observe(text));
+
+        // Skill bars animation
+        const skillBars = document.querySelectorAll('.skill-bar');
+        const skillObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                }
+            });
+        }, observerOptions);
+
+        skillBars.forEach(bar => skillObserver.observe(bar));
+
+        // Timeline animation
+        const timelineItems = document.querySelectorAll('.timeline-item');
+        const timelineObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        timelineItems.forEach(item => timelineObserver.observe(item));
+
+        // Testimonials animation
+        const testimonialCards = document.querySelectorAll('.testimonial-card');
+        const testimonialObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        testimonialCards.forEach(card => testimonialObserver.observe(card));
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+<script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
+</body>
+</html>

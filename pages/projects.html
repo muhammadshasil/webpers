@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="NeonDev Projects - Explore cutting-edge web development projects with interactive demos, case studies, and technical achievements in cyberpunk aesthetic.">
+    <meta name="keywords" content="web development projects, portfolio showcase, case studies, interactive demos, full stack projects">
+    <meta name="author" content="NeonDev">
+    <title>Projects - NeonDev | Interactive Portfolio Showcase</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <style>
+        /* Custom animations for projects page */
+        @keyframes float-project {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+
+        @keyframes reveal-card {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .project-card {
+            animation: reveal-card 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        .project-card:nth-child(1) { animation-delay: 0.1s; }
+        .project-card:nth-child(2) { animation-delay: 0.2s; }
+        .project-card:nth-child(3) { animation-delay: 0.3s; }
+        .project-card:nth-child(4) { animation-delay: 0.4s; }
+        .project-card:nth-child(5) { animation-delay: 0.5s; }
+        .project-card:nth-child(6) { animation-delay: 0.6s; }
+
+        .project-image-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 0.5rem;
+        }
+
+        .project-image-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.3), transparent);
+            transition: left 0.5s ease;
+            z-index: 1;
+        }
+
+        .project-card:hover .project-image-container::before {
+            left: 100%;
+        }
+
+        .tech-badge {
+            transition: all 0.3s ease;
+        }
+
+        .tech-badge:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+        }
+
+        .filter-btn {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+            transform: translateX(-50%);
+            transition: width 0.3s ease;
+        }
+
+        .filter-btn.active::after,
+        .filter-btn:hover::after {
+            width: 100%;
+        }
+
+        .metric-card {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, rgba(59, 130, 246, 0.05) 100%);
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .metric-card:hover {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .testimonial-card {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.05) 0%, rgba(59, 130, 246, 0.02) 100%);
+            border-left: 3px solid var(--color-primary);
+            transition: all 0.3s ease;
+        }
+
+        .testimonial-card:hover {
+            border-left-width: 5px;
+            box-shadow: 0 0 30px rgba(168, 85, 247, 0.2);
+            transform: translateX(5px);
+        }
+
+        .github-stats {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(59, 130, 246, 0.05) 100%);
+        }
+
+        .performance-bar {
+            height: 8px;
+            background: rgba(168, 85, 247, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .performance-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+            border-radius: 4px;
+            transition: width 1s ease-out;
+            box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+        }
+
+        .project-expanded {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+        }
+
+        .project-expanded.active {
+            max-height: 2000px;
+        }
+    </style>
+  <script type="module" async src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fneondevpo4985back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.12"></script>
+  <script type="module" defer src="https://static.rocket.new/rocket-shot.js?v=0.0.2"></script>
+  </head>
+<body class="bg-background text-text-primary overflow-x-hidden">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 backdrop-cyberpunk border-b border-surface-light transition-all duration-300" id="navbar">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <a href="hero_landing.html" class="flex items-center gap-3 group">
+                    <svg class="w-10 h-10 transition-transform duration-300 group-hover:scale-110" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20 5L35 12.5V27.5L20 35L5 27.5V12.5L20 5Z" stroke="url(#logo-gradient)" stroke-width="2" fill="none"/>
+                        <circle cx="20" cy="20" r="6" fill="url(#logo-gradient)" class="animate-pulse-neon"/>
+                        <defs>
+                            <linearGradient id="logo-gradient" x1="5" y1="5" x2="35" y2="35">
+                                <stop offset="0%" style="stop-color:#a855f7"/>
+                                <stop offset="100%" style="stop-color:#3b82f6"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <span class="font-headline text-xl font-bold text-gradient-primary">NeonDev</span>
+                </a>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="hero_landing.html" class="nav-link font-body text-sm font-medium text-text-primary hover:text-primary">Home</a>
+                    <a href="about.html" class="nav-link font-body text-sm font-medium text-text-primary hover:text-primary">About</a>
+                    <a href="projects.html" class="nav-link active font-body text-sm font-medium text-text-primary hover:text-primary">Projects</a>
+                    <a href="code_laboratory.html" class="nav-link font-body text-sm font-medium text-text-primary hover:text-primary">Code Lab</a>
+                    <a href="resume_vault.html" class="nav-link font-body text-sm font-medium text-text-primary hover:text-primary">Resume</a>
+                    <a href="contact_terminal.html" class="btn-primary text-sm px-6 py-2">Contact</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="md:hidden text-primary hover:text-primary-400 transition-colors" id="mobile-menu-btn" aria-label="Toggle mobile menu">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <div class="hidden md:hidden mt-4 pb-4 border-t border-surface-light" id="mobile-menu">
+                <div class="flex flex-col gap-4 mt-4">
+                    <a href="hero_landing.html" class="font-body text-sm font-medium text-text-primary hover:text-primary">Home</a>
+                    <a href="about.html" class="font-body text-sm font-medium text-text-primary hover:text-primary">About</a>
+                    <a href="projects.html" class="font-body text-sm font-medium text-primary">Projects</a>
+                    <a href="code_laboratory.html" class="font-body text-sm font-medium text-text-primary hover:text-primary">Code Lab</a>
+                    <a href="resume_vault.html" class="font-body text-sm font-medium text-text-primary hover:text-primary">Resume</a>
+                    <a href="contact_terminal.html" class="btn-primary text-sm px-6 py-2 text-center">Contact</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-16 overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-secondary/10"></div>
+
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center space-y-6 max-w-4xl mx-auto fade-in">
+                <div class="inline-flex items-center gap-2 px-4 py-2 bg-surface border border-primary rounded-full">
+                    <span class="w-2 h-2 bg-accent rounded-full animate-pulse"></span>
+                    <span class="font-code text-sm text-primary">Portfolio Showcase</span>
+                </div>
+
+                <h1 class="font-headline text-5xl md:text-6xl lg:text-7xl font-bold">
+                    <span class="text-gradient-primary">Featured Projects</span>
+                </h1>
+
+                <p class="font-body text-lg md:text-xl text-text-secondary max-w-2xl mx-auto leading-relaxed">
+                    Explore cutting-edge web applications where innovative design meets technical excellence. Each project tells a story of problem-solving and creative engineering.
+                </p>
+
+                <!-- Stats -->
+                <div class="grid grid-cols-3 gap-6 max-w-2xl mx-auto pt-8">
+                    <div class="text-center space-y-2">
+                        <div class="text-3xl md:text-4xl font-headline font-bold text-gradient-primary">50+</div>
+                        <p class="font-body text-sm text-text-secondary">Projects Delivered</p>
+                    </div>
+                    <div class="text-center space-y-2">
+                        <div class="text-3xl md:text-4xl font-headline font-bold text-gradient-primary">30+</div>
+                        <p class="font-body text-sm text-text-secondary">Happy Clients</p>
+                    </div>
+                    <div class="text-center space-y-2">
+                        <div class="text-3xl md:text-4xl font-headline font-bold text-gradient-primary">15+</div>
+                        <p class="font-body text-sm text-text-secondary">Awards Won</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filter Section -->
+    <section class="py-8 border-y border-surface-light bg-surface/30">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-wrap items-center justify-between gap-4">
+                <!-- Category Filters -->
+                <div class="flex flex-wrap items-center gap-3">
+                    <button class="filter-btn active px-4 py-2 font-body text-sm font-medium text-text-primary hover:text-primary transition-colors" data-filter="all">
+                        All Projects
+                    </button>
+                    <button class="filter-btn px-4 py-2 font-body text-sm font-medium text-text-primary hover:text-primary transition-colors" data-filter="web">
+                        Web Apps
+                    </button>
+                    <button class="filter-btn px-4 py-2 font-body text-sm font-medium text-text-primary hover:text-primary transition-colors" data-filter="mobile">
+                        Mobile
+                    </button>
+                    <button class="filter-btn px-4 py-2 font-body text-sm font-medium text-text-primary hover:text-primary transition-colors" data-filter="ecommerce">
+                        E-Commerce
+                    </button>
+                    <button class="filter-btn px-4 py-2 font-body text-sm font-medium text-text-primary hover:text-primary transition-colors" data-filter="saas">
+                        SaaS
+                    </button>
+                </div>
+
+                <!-- Search & Reset -->
+                <div class="flex items-center gap-3">
+                    <div class="relative">
+                        <input type="text" id="search-input" placeholder="Search projects..."
+                               class="bg-surface border border-surface-light rounded-lg px-4 py-2 pl-10 font-body text-sm text-text-primary focus:border-primary focus:outline-none transition-colors w-64">
+                        <svg class="w-5 h-5 text-text-tertiary absolute left-3 top-1/2 transform -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </div>
+                    <button id="reset-filters" class="px-4 py-2 bg-surface border border-surface-light rounded-lg font-body text-sm text-text-secondary hover:text-primary hover:border-primary transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Grid -->
+    <section class="py-20">
+        <div class="container mx-auto px-6">
+            <div id="projects-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project Card 1 -->
+                <article class="project-card card-cyberpunk group cursor-pointer" data-category="web saas" data-project-id="1">
+                    <div class="project-image-container mb-6">
+                        <img src="https://img.rocket.new/generatedImages/rocket_gen_img_143a21815-1764651949320.png"
+                             alt="NexusFlow Dashboard - Modern SaaS analytics platform with real-time data visualization and cyberpunk-inspired interface design"
+                             class="w-full h-64 object-cover rounded-lg transition-transform duration-500 group-hover:scale-110"
+                             loading="lazy"
+                             onerror="this.src='https://images.pexels.com/photos/265087/pexels-photo-265087.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'; this.onerror=null;">
+                        <div class="absolute top-4 right-4 px-3 py-1 bg-accent text-background font-code text-xs font-bold rounded-full">
+                            Featured
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="flex items-start justify-between gap-4">
+                            <h3 class="font-headline text-2xl font-bold text-text-primary group-hover:text-gradient-primary transition-all">
+                                NexusFlow Dashboard
+                            </h3>
+                            <a href="javascript:void(0)" class="github-link p-2 bg-surface-light rounded-lg hover:bg-primary transition-colors" aria-label="View NexusFlow Dashboard on GitHub">
+                                <svg class="w-5 h-5 text-text-primary" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                                </svg>
+                            </a>
+                        </div>
+
+                        <p class="font-body text-sm text-text-secondary leading-relaxed">
+                            Real-time analytics SaaS platform with advanced data visualization, custom dashboards, and AI-powered insights for enterprise clients.
+                        </p>
+
+                        <!-- Tech Stack -->
+                        <div class="flex flex-wrap gap-2">
+                            <span class="tech-badge px-3 py-1 bg-primary/10 border border-primary/30 rounded-full font-code text-xs text-primary">React</span>
+                            <span class="tech-badge px-3 py-1 bg-secondary/10 border border-secondary/30 rounded-full font-code text-xs text-secondary">Node.js</span>
+                            <span class="tech-badge px-3 py-1 bg-accent/10 border border-accent/30 rounded-full font-code text-xs text-accent">MongoDB</span>
+                            <span class="tech-badge px-3 py-1 bg-primary/10 border border-primary/30 rounded-full font-code text-xs text-primary">D3.js</span>
+                        </div>
+
+                        <!-- Metrics -->
+                        <div class="grid grid-cols-3 gap-3 pt-4 border-t border-surface-light">
+                            <div class="text-center">
+                                <div class="text-lg font-headline font-bold text-primary">85%</div>
+                                <div class="font-body text-xs text-text-tertiary">Performance</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-lg font-headline font-bold text-secondary">10K+</div>
+                                <div class="font-body text-xs text-text-tertiary">Users</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-lg font-headline font-bold text-accent">4.9★</div>
+                                <div class="font-body text-xs text-text-tertiary">Rating</div>
+                            </div>
+                        </div>
+
+                        <!-- CTA -->
+                        <div class="flex gap-3 pt-4">
+                            <button class="expand-btn flex-1 px-4 py-2 bg-primary text-background font-cta text-sm font-bold rounded-lg hover:bg-primary-600 transition-colors">
+                                View Details
+                            </button>
+                            <a href="javascript:void(0)" class="demo-link px-4 py-2 border border-primary text-primary font-cta text-sm font-bold rounded-lg hover:bg-primary hover:text-background transition-colors">
+                                Live Demo
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Expanded Content -->
+                    <div class="project-expanded mt-6 pt-6 border-t border-surface-light space-y-6">
+                        <!-- Case Study -->
+                        <div class="space-y-3">
+                            <h4 class="font-headline text-lg font-bold text-primary">Case Study</h4>
+                            <p class="font-body text-sm text-text-secondary leading-relaxed">
+                                Developed a comprehensive analytics platform that processes over 1 million data points daily. Implemented real-time WebSocket connections for live updates and custom D3.js visualizations for interactive charts. The platform reduced client reporting time by 75% and increased data-driven decision making by 60%.
+                            </p>
+                        </div>
+
+                        <!-- Technical Achievements -->
+                        <div class="space-y-3">
+                            <h4 class="font-headline text-lg font-bold text-secondary">Technical Highlights</h4>
+                            <ul class="space-y-2">
+                                <li class="flex items-start gap-2">
+                                    <svg class="w-5 h-5 text-accent mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                    <span class="font-body text-sm text-text-secondary">Microservices architecture with Docker containerization</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <svg class="w-5 h-5 text-accent mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                    <span class="font-body text-sm text-text-secondary">Redis caching for 3x faster data retrieval</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <svg class="w-5 h-5 text-accent mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                    <span class="font-body text-sm text-text-secondary">JWT authentication with role-based access control</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Performance Metrics -->
+                        <div class="space-y-3">
+                            <h4 class="font-headline text-lg font-bold text-primary">Performance Improvements</h4>
+                            <div class="space-y-3">
+                                <div>
+                                    <div class="flex justify-between mb-2">
+                                        <span class="font-body text-sm text-text-secondary">Load Time</span>
+                                        <span class="font-code text-sm text-accent">-65%</span>
+                                    </div>
+                                    <div class="performance-bar">
+                                        <div class="performance-fill" style="width: 85%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between mb-2">
+                                        <span class="font-body text-sm text-text-secondary">User Engagement</span>
+                                        <span class="font-code text-sm text-accent">+120%</span>
+                                    </div>
+                                    <div class="performance-bar">
+                                        <div class="performance-fill" style="width: 92%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Client Testimonial -->
+                        <div class="testimonial-card p-4 rounded-lg">
+                            <div class="flex items-start gap-4">
+                                <img src="https://img.rocket.new/generatedImages/rocket_gen_img_13c7bbd1e-1763295865601.png"
+                                     alt="Michael Chen - CTO at TechCorp, satisfied client testimonial for NexusFlow Dashboard project"
+                                     class="w-12 h-12 rounded-full object-cover border-2 border-primary"
+                                     loading="lazy"
+                                     onerror="this.src='https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'; this.onerror=null;">
+                                <div class="flex-1">
+                                    <p class="font-body text-sm text-text-secondary italic mb-2">
+                                        "The dashboard transformed how we analyze data. The real-time insights have been game-changing for our decision-making process."
+                                    </p>
+                                    <div class="flex items-center gap-2">
+                                        <span class="font-body text-sm font-bold text-primary">Michael Chen</span>
+                                        <span class="font-body text-xs text-text-tertiary">CTO, TechCorp</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Project Card 2 -->
+                <article class="project-card card-cyberpunk group cursor-pointer" data-category="ecommerce web" data-project-id="2">
+                    <div class="project-image-container mb-6">
+                        <img src="https://img.rocket.new/generatedImages/rocket_gen_img_1550556f4-1766471838287.png"
+                             alt="CyberMart E-Commerce - Next-generation online shopping platform with AI recommendations and seamless checkout experience"
+                             class="w-full h-64 object-cover rounded-lg transition-transform duration-500 group-hover:scale-110"
+                             loading="lazy"
+                             onerror="this.src='https://images.pexels.com/photos/230544/pexels-photo-230544.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'; this.onerror=null;">
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="flex items-start justify-between gap-4">
+                            <h3 class="font-headline text-2xl font-bold text-text-primary group-hover:text-gradient-primary transition-all">
+                                CyberMart E-Commerce
+                            </h3>
+                            <a href="javascript:void(0)" class="github-link p-2 bg-surface-light rounded-lg hover:bg-primary transition-colors" aria-label="View CyberMart E-Commerce on GitHub">
+                                <svg class="w-5 h-5 text-text-primary" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                                </svg>
+                            </a>
+                        </div>
+
+                        <p class="font-body text-sm text-text-secondary leading-relaxed">
+                            Full-featured e-commerce platform with AI-powered product recommendations, secure payment processing, and inventory management.
+                        </p>
+
+                        <!-- Tech Stack -->
+                        <div class="flex flex-wrap gap-2">
+                            <span class="tech-badge px-3 py-1 bg-primary/10 border border-primary/30 rounded-full font-code text-xs text-primary">Next.js</span>
+                            <span class="tech-badge px-3 py-1 bg-secondary/10 border border-secondary/30 rounded-full font-code text-xs text-secondary">Stripe</span>
+                            <span class="tech-badge px-3 py-1 bg-accent/10 border border-accent/30 rounded-full font-code text-xs text-accent">PostgreSQL</span>
+                            <span class="tech-badge px-3 py-1 bg-primary/10 border border-primary/30 rounded-full font-code text-xs text-primary">TensorFlow</span>
+                        </div>
+
+                        <!-- Metrics -->
+                        <div class="grid grid-cols-3 gap-3 pt-4 border-t border-surface-light">
+                            <div class="text-center">
+                                <div class="text-lg font-headline font-bold text-primary">92%</div>
+                                <div class="font-body text-xs text-text-tertiary">Conversion</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-lg font-headline font-bold text-secondary">50K+</div>
+                                <div class="font-body text-xs text-text-tertiary">Orders</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-lg font-headline font-bold text-accent">$2M+</div>
+                                <div class="font-body text-xs text-text-tertiary">Revenue</div>
+                            </div>
+                        </div>
+
+                        <!-- CTA -->
+                        <div class="flex gap-3 pt-4">
+                            <button class="expand-btn flex-1 px-4 py-2 bg-primary text-background font-cta text-sm font-bold rounded-lg hover:bg-primary-600 transition-colors">
+                                View Details
+                            </button>
+                            <a href="javascript:void(0)" class="demo-link px-4 py-2 border border-primary text-primary font-cta text-sm font-bold rounded-lg hover:bg-primary hover:text-background transition-colors">
+                                Live Demo
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Expanded Content -->
+                    <div class="project-expanded mt-6 pt-6 border-t border-surface-light space-y-6">
+                        <div class="space-y-3">
+                            <h4 class="font-headline text-lg font-bold text-primary">Case Study</h4>
+                            <p class="font-body text-sm text-text-secondary leading-relaxed">
+                                Built a scalable e-commerce solution handling 50,000+ daily transactions. Integrated machine learning for personalized product recommendations, increasing average order value by 45%. Implemented progressive web app features for offline shopping capabilities.
+                            </p>
+                        </div>
+
+                        <div class="testimonial-card p-4 rounded-lg">
+                            <div class="flex items-start gap-4">
+                                <img src="https://img.rocket.new/generatedImages/rocket_gen_img_120e93620-1763296634685.png"
+                                     alt="Sarah Johnson - CEO at RetailPro, client testimonial for CyberMart E-Commerce platform success"
+                                     class="w-12 h-12 rounded-full object-cover border-2 border-primary"
+                                     loading="lazy"
+                                     onerror="this.src='https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'; this.onerror=null;">
+                                <div class="flex-1">
+                                    <p class="font-body text-sm text-text-secondary italic mb-2">
+                                        "Our sales increased by 200% within the first quarter. The AI recommendations are incredibly accurate."
+                                    </p>
+                                    <div class="flex items-center gap-2">
+                                        <span class="font-body text-sm font-bold text-primary">Sarah Johnson</span>
+                                        <span class="font-body text-xs text-text-tertiary">CEO, RetailPro</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Project Card 3 -->
+                <article class="project-card card-cyberpunk group cursor-pointer" data-category="mobile" data-project-id="3">
+                    <div class="project-image-container mb-6">
+                        <img src="https://img.rocket.new/generatedImages/rocket_gen_img_1c29d13b2-1764639853707.png"
+                             alt="FitTrack Mobile App - Comprehensive fitness tracking application with workout plans and nutrition monitoring"
+                             class="w-full h-64 object-cover rounded-lg transition-transform duration-500 group-hover:scale-110"
+                             loading="lazy"
+                             onerror="this.src='https://images.pexels.com/photos/4162491/pexels-photo-4162491.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'; this.onerror=null;">
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="flex items-start justify-between gap-4">
+                            <h3 class="font-headline text-2xl font-bold text-text-primary group-hover:text-gradient-primary transition-all">
+                                FitTrack Mobile App
+                            </h3>
+                            <a href="javascript:void(0)" class="github-link p-2 bg-surface-light rounded-lg hover:bg-primary transition-colors" aria-label="View FitTrack Mobile App on GitHub">
+                                <svg class="w-5 h-5 text-text-primary" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                                </svg>
+                            </a>
+                        </div>
+
+                        <p class="font-body text-sm text-text-secondary leading-relaxed">
+                            Cross-platform fitness tracking app with workout plans, nutrition monitoring, and social features for motivation and accountability.
+                        </p>
+
+                        <!-- Tech Stack -->
+                        <div class="flex flex-wrap gap-2">
+                            <span class="tech-badge px-3 py-1 bg-primary/10 border border-primary/30 rounded-full font-code text-xs text-primary">React Native</span>
+                            <span class="tech-badge px-3 py-1 bg-secondary/10 border border-secondary/30 rounded-full font-code text-xs text-secondary">Firebase</span>
+                            <span class="tech-badge px-3 py-1 bg-accent/10 border border-accent/30 rounded-full font-code text-xs text-accent">Redux</span>
+                            <span class="tech-badge px-3 py-1 bg-primary/10 border border-primary/30 rounded-full font-code text-xs text-primary">HealthKit</span>
+                        </div>
+
+                        <!-- Metrics -->
+                        <div class="grid grid-cols-3 gap-3 pt-4 border-t border-surface-light">
+                            <div class="text-center">
+                                <div class="text-lg font-headline font-bold text-primary">100K+</div>
+                                <div class="font-body text-xs text-text-tertiary">Downloads</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-lg font-headline font-bold text-secondary">4.8★</div>
+                                <div class="font-body text-xs text-text-tertiary">App Store</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-lg font-headline font-bold text-accent">95%</div>
+                                <div class="font-body text-xs text-text-tertiary">Retention</div>
+                            </div>
+                        </div>
+
+                        <!-- CTA -->
+                        <div class="flex gap-3 pt-4">
+                            <button class="expand-btn flex-1 px-4 py-2 bg-primary text-background font-cta text-sm font-bold rounded-lg hover:bg-primary-600 transition-colors">
+                                View Details
+                            </button>
+                            <a href="javascript:void(0)" class="demo-link px-4 py-2 border border-primary text-primary font-cta text-sm font-bold rounded-lg hover:bg-primary hover:text-background transition-colors">
+                                Live Demo
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Expanded Content -->
+                    <div class="project-expanded mt-6 pt-6 border-t border-surface-light space-y-6">
+                        <div class="space-y-3">
+                            <h4 class="font-headline text-lg font-bold text-primary">Case Study</h4>
+                            <p class="font-body text-sm text-text-secondary leading-relaxed">
+                                Developed a comprehensive fitness ecosystem with native integrations for Apple Health and Google Fit. Implemented social features that increased user engagement by 180%. The app processes over 5 million workout sessions monthly.
+                            </p>
+                        </div>
+
+                        <div class="testimonial-card p-4 rounded-lg">
+                            <div class="flex items-start gap-4">
+                                <img src="https://img.rocket.new/generatedImages/rocket_gen_img_1ec8f434d-1766471838291.png"
+                                     alt="David Martinez - Fitness Coach, testimonial for FitTrack Mobile App effectiveness and user experience"
+                                     class="w-12 h-12 rounded-full object-cover border-2 border-primary"
+                                     loading="lazy"
+                                     onerror="this.src='https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'; this.onerror=null;">
+                                <div class="flex-1">
+                                    <p class="font-body text-sm text-text-secondary italic mb-2">
+                                        "My clients love this app! The tracking features are comprehensive and the UI is incredibly intuitive."
+                                    </p>
+                                    <div class="flex items-center gap-2">
+                                        <span class="font-body text-sm font-bold text-primary">David Martinez</span>
+                                        <span class="font-body text-xs text-text-tertiary">Fitness Coach</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Project Card 4 -->
+                <article class="project-card card-cyberpunk group cursor-pointer" data-category="web saas" data-project-id="4">
+                    <div class="project-image-container mb-6">
+                        <img src="https://img.rocket.new/generatedImages/rocket_gen_img_13c359306-1764804744956.png"
+                             alt="CloudSync Collaboration - Team collaboration platform with real-time document editing and project management tools"
+                             class="w-full h-64 object-cover rounded-lg transition-transform duration-500 group-hover:scale-110"
+                             loading="lazy"
+                             onerror="this.src='https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'; this.onerror=null;">
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="flex items-start justify-between gap-4">
+                            <h3 class="font-headline text-2xl font-bold text-text-primary group-hover:text-gradient-primary transition-all">
+                                CloudSync Collaboration
+                            </h3>
+                            <a href="javascript:void(0)" class="github-link p-2 bg-surface-light rounded-lg hover:bg-primary transition-colors" aria-label="View CloudSync Collaboration on GitHub">
+                                <svg class="w-5 h-5 text-text-primary" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                                </svg>
+                            </a>
+                        </div>
+
+                        <p class="font-body text-sm text-text-secondary leading-relaxed">
+                            Real-time collaboration platform with document editing, video conferencing, and project management tools for distributed teams.
+                        </p>
+
+                        <!-- Tech Stack -->
+                        <div class="flex flex-wrap gap-2">
+                            <span class="tech-badge px-3 py-1 bg-primary/10 border border-primary/30 rounded-full font-code text-xs text-primary">Vue.js</span>
+                            <span class="tech-badge px-3 py-1 bg-secondary/10 border border-secondary/30 rounded-full font-code text-xs text-secondary">WebRTC</span>
+                            <span class="tech-badge px-3 py-1 bg-accent/10 border border-accent/30 rounded-full font-code text-xs text-accent">Socket.io</span>
+                            <span class="tech-badge px-3 py-1 bg-primary/10 border border-primary/30 rounded-full font-code text-xs text-primary">AWS</span>
+                        </div>
+
+                        <!-- Metrics -->
+                        <div class="grid grid-cols-3 gap-3 pt-4 border-t border-surface-light">
+                            <div class="text-center">
+                                <div class="text-lg font-headline font-bold text-primary">25K+</div>
+                                <div class="font-body text-xs text-text-tertiary">Teams</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-lg font-headline font-bold text-secondary">99.9%</div>
+                                <div class="font-body text-xs text-text-tertiary">Uptime</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-lg font-headline font-bold text-accent">500K+</div>
+                                <div class="font-body text-xs text-text-tertiary">Documents</div>
+                            </div>
+                        </div>
+
+                        <!-- CTA -->
+                        <div class="flex gap-3 pt-4">
+                            <button class="expand-btn flex-1 px-4 py-2 bg-primary text-background font-cta text-sm font-bold rounded-lg hover:bg-primary-600 transition-colors">
+                                View Details
+                            </button>
+                            <a href="javascript:void(0)" class="demo-link px-4 py-2 border border-primary text-primary font-cta text-sm font-bold rounded-lg hover:bg-primary hover:text-background transition-colors">
+                                Live Demo
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Expanded Content -->
+                    <div class="project-expanded mt-6 pt-6 border-t border-surface-light space-y-6">
+                        <div class="space-y-3">
+                            <h4 class="font-headline text-lg font-bold text-primary">Case Study</h4>
+                            <p class="font-body text-sm text-text-secondary leading-relaxed">
+                                Created a unified collaboration hub that replaced 5 separate tools for enterprise clients. Implemented operational transformation for conflict-free collaborative editing. The platform reduced meeting time by 40% and improved team productivity by 65%.
+                            </p>
+                        </div>
+
+                        <div class="testimonial-card p-4 rounded-lg">
+                            <div class="flex items-start gap-4">
+                                <img src="https://img.rocket.new/generatedImages/rocket_gen_img_150c7da0c-1766471838986.png"
+                                     alt="Emily Roberts - Product Manager, testimonial for CloudSync Collaboration platform team productivity improvements"
+                                     class="w-12 h-12 rounded-full object-cover border-2 border-primary"
+                                     loading="lazy"
+                                     onerror="this.src='https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'; this.onerror=null;">
+                                <div class="flex-1">
+                                    <p class="font-body text-sm text-text-secondary italic mb-2">
+                                        "This platform revolutionized how our remote team collaborates. Everything we need in one place."
+                                    </p>
+                                    <div class="flex items-center gap-2">
+                                        <span class="font-body text-sm font-bold text-primary">Emily Roberts</span>
+                                        <span class="font-body text-xs text-text-tertiary">Product Manager</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Project Card 5 -->
+                <article class="project-card card-cyberpunk group cursor-pointer" data-category="web" data-project-id="5">
+                    <div class="project-image-container mb-6">
+                        <img src="https://img.rocket.new/generatedImages/rocket_gen_img_1defb156a-1765289111617.png"
+                             alt="NeuralAI Assistant - AI-powered virtual assistant with natural language processing and task automation"
+                             class="w-full h-64 object-cover rounded-lg transition-transform duration-500 group-hover:scale-110"
+                             loading="lazy"
+                             onerror="this.src='https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'; this.onerror=null;">
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="flex items-start justify-between gap-4">
+                            <h3 class="font-headline text-2xl font-bold text-text-primary group-hover:text-gradient-primary transition-all">
+                                NeuralAI Assistant
+                            </h3>
+                            <a href="javascript:void(0)" class="github-link p-2 bg-surface-light rounded-lg hover:bg-primary transition-colors" aria-label="View NeuralAI Assistant on GitHub">
+                                <svg class="w-5 h-5 text-text-primary" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                                </svg>
+                            </a>
+                        </div>
+
+                        <p class="font-body text-sm text-text-secondary leading-relaxed">
+                            AI-powered virtual assistant with natural language processing, task automation, and intelligent scheduling capabilities.
+                        </p>
+
+                        <!-- Tech Stack -->
+                        <div class="flex flex-wrap gap-2">
+                            <span class="tech-badge px-3 py-1 bg-primary/10 border border-primary/30 rounded-full font-code text-xs text-primary">Python</span>
+                            <span class="tech-badge px-3 py-1 bg-secondary/10 border border-secondary/30 rounded-full font-code text-xs text-secondary">TensorFlow</span>
+                            <span class="tech-badge px-3 py-1 bg-accent/10 border border-accent/30 rounded-full font-code text-xs text-accent">FastAPI</span>
+                            <span class="tech-badge px-3 py-1 bg-primary/10 border border-primary/30 rounded-full font-code text-xs text-primary">GPT-4</span>
+                        </div>
+
+                        <!-- Metrics -->
+                        <div class="grid grid-cols-3 gap-3 pt-4 border-t border-surface-light">
+                            <div class="text-center">
+                                <div class="text-lg font-headline font-bold text-primary">98%</div>
+                                <div class="font-body text-xs text-text-tertiary">Accuracy</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-lg font-headline font-bold text-secondary">15K+</div>
+                                <div class="font-body text-xs text-text-tertiary">Users</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-lg font-headline font-bold text-accent">1M+</div>
+                                <div class="font-body text-xs text-text-tertiary">Queries</div>
+                            </div>
+                        </div>
+
+                        <!-- CTA -->
+                        <div class="flex gap-3 pt-4">
+                            <button class="expand-btn flex-1 px-4 py-2 bg-primary text-background font-cta text-sm font-bold rounded-lg hover:bg-primary-600 transition-colors">
+                                View Details
+                            </button>
+                            <a href="javascript:void(0)" class="demo-link px-4 py-2 border border-primary text-primary font-cta text-sm font-bold rounded-lg hover:bg-primary hover:text-background transition-colors">
+                                Live Demo
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Expanded Content -->
+                    <div class="project-expanded mt-6 pt-6 border-t border-surface-light space-y-6">
+                        <div class="space-y-3">
+                            <h4 class="font-headline text-lg font-bold text-primary">Case Study</h4>
+                            <p class="font-body text-sm text-text-secondary leading-relaxed">
+                                Developed an advanced AI assistant using transformer models and custom NLP pipelines. Integrated with 20+ third-party services for comprehensive task automation. The system processes over 1 million queries monthly with 98% accuracy.
+                            </p>
+                        </div>
+
+                        <div class="testimonial-card p-4 rounded-lg">
+                            <div class="flex items-start gap-4">
+                                <img src="https://img.rocket.new/generatedImages/rocket_gen_img_13a6d6499-1766471840038.png"
+                                     alt="James Wilson - Tech Entrepreneur, testimonial for NeuralAI Assistant productivity and automation capabilities"
+                                     class="w-12 h-12 rounded-full object-cover border-2 border-primary"
+                                     loading="lazy"
+                                     onerror="this.src='https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'; this.onerror=null;">
+                                <div class="flex-1">
+                                    <p class="font-body text-sm text-text-secondary italic mb-2">
+                                        "The AI assistant saves me 10+ hours per week. It's like having a personal productivity expert."
+                                    </p>
+                                    <div class="flex items-center gap-2">
+                                        <span class="font-body text-sm font-bold text-primary">James Wilson</span>
+                                        <span class="font-body text-xs text-text-tertiary">Tech Entrepreneur</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Project Card 6 -->
+                <article class="project-card card-cyberpunk group cursor-pointer" data-category="web saas" data-project-id="6">
+                    <div class="project-image-container mb-6">
+                        <img src="https://img.rocket.new/generatedImages/rocket_gen_img_1654ecffd-1766471838257.png"
+                             alt="SecureVault Password Manager - Enterprise-grade password management with end-to-end encryption and team sharing"
+                             class="w-full h-64 object-cover rounded-lg transition-transform duration-500 group-hover:scale-110"
+                             loading="lazy"
+                             onerror="this.src='https://images.pexels.com/photos/60504/security-protection-anti-virus-software-60504.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'; this.onerror=null;">
+                        <div class="absolute top-4 right-4 px-3 py-1 bg-secondary text-background font-code text-xs font-bold rounded-full">
+                            New
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="flex items-start justify-between gap-4">
+                            <h3 class="font-headline text-2xl font-bold text-text-primary group-hover:text-gradient-primary transition-all">
+                                SecureVault Manager
+                            </h3>
+                            <a href="javascript:void(0)" class="github-link p-2 bg-surface-light rounded-lg hover:bg-primary transition-colors" aria-label="View SecureVault Manager on GitHub">
+                                <svg class="w-5 h-5 text-text-primary" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                                </svg>
+                            </a>
+                        </div>
+
+                        <p class="font-body text-sm text-text-secondary leading-relaxed">
+                            Enterprise-grade password management solution with end-to-end encryption, team sharing, and security audit features.
+                        </p>
+
+                        <!-- Tech Stack -->
+                        <div class="flex flex-wrap gap-2">
+                            <span class="tech-badge px-3 py-1 bg-primary/10 border border-primary/30 rounded-full font-code text-xs text-primary">Electron</span>
+                            <span class="tech-badge px-3 py-1 bg-secondary/10 border border-secondary/30 rounded-full font-code text-xs text-secondary">AES-256</span>
+                            <span class="tech-badge px-3 py-1 bg-accent/10 border border-accent/30 rounded-full font-code text-xs text-accent">GraphQL</span>
+                            <span class="tech-badge px-3 py-1 bg-primary/10 border border-primary/30 rounded-full font-code text-xs text-primary">Rust</span>
+                        </div>
+
+                        <!-- Metrics -->
+                        <div class="grid grid-cols-3 gap-3 pt-4 border-t border-surface-light">
+                            <div class="text-center">
+                                <div class="text-lg font-headline font-bold text-primary">100%</div>
+                                <div class="font-body text-xs text-text-tertiary">Secure</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-lg font-headline font-bold text-secondary">5K+</div>
+                                <div class="font-body text-xs text-text-tertiary">Companies</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-lg font-headline font-bold text-accent">2M+</div>
+                                <div class="font-body text-xs text-text-tertiary">Passwords</div>
+                            </div>
+                        </div>
+
+                        <!-- CTA -->
+                        <div class="flex gap-3 pt-4">
+                            <button class="expand-btn flex-1 px-4 py-2 bg-primary text-background font-cta text-sm font-bold rounded-lg hover:bg-primary-600 transition-colors">
+                                View Details
+                            </button>
+                            <a href="javascript:void(0)" class="demo-link px-4 py-2 border border-primary text-primary font-cta text-sm font-bold rounded-lg hover:bg-primary hover:text-background transition-colors">
+                                Live Demo
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Expanded Content -->
+                    <div class="project-expanded mt-6 pt-6 border-t border-surface-light space-y-6">
+                        <div class="space-y-3">
+                            <h4 class="font-headline text-lg font-bold text-primary">Case Study</h4>
+                            <p class="font-body text-sm text-text-secondary leading-relaxed">
+                                Built a zero-knowledge password manager with military-grade encryption. Implemented cross-platform synchronization and biometric authentication. The platform has prevented over 10,000 security breaches and manages 2 million+ passwords securely.
+                            </p>
+                        </div>
+
+                        <div class="testimonial-card p-4 rounded-lg">
+                            <div class="flex items-start gap-4">
+                                <img src="https://img.rocket.new/generatedImages/rocket_gen_img_13c7bbd1e-1763295865601.png"
+                                     alt="Robert Anderson - Security Director, testimonial for SecureVault Manager enterprise security features"
+                                     class="w-12 h-12 rounded-full object-cover border-2 border-primary"
+                                     loading="lazy"
+                                     onerror="this.src='https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'; this.onerror=null;">
+                                <div class="flex-1">
+                                    <p class="font-body text-sm text-text-secondary italic mb-2">
+                                        "Finally, a password manager that meets our enterprise security requirements. Highly recommended."
+                                    </p>
+                                    <div class="flex items-center gap-2">
+                                        <span class="font-body text-sm font-bold text-primary">Robert Anderson</span>
+                                        <span class="font-body text-xs text-text-tertiary">Security Director</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <!-- Empty State -->
+            <div id="empty-state" class="hidden text-center py-20">
+                <svg class="w-24 h-24 mx-auto text-text-tertiary mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <h3 class="font-headline text-2xl font-bold text-text-primary mb-2">No Projects Found</h3>
+                <p class="font-body text-text-secondary mb-6">Try adjusting your filters or search terms</p>
+                <button id="clear-filters" class="btn-primary">Clear All Filters</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- GitHub Stats Section -->
+    <section class="py-20 bg-surface/30 border-y border-surface-light">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="font-headline text-3xl md:text-4xl font-bold text-gradient-primary mb-4">
+                    Open Source Contributions
+                </h2>
+                <p class="font-body text-text-secondary max-w-2xl mx-auto">
+                    Active contributor to the developer community with consistent engagement and quality contributions
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="github-stats metric-card p-6 rounded-lg text-center">
+                    <svg class="w-12 h-12 mx-auto mb-4 text-primary" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                    <div class="text-3xl font-headline font-bold text-primary mb-2">2,500+</div>
+                    <div class="font-body text-sm text-text-secondary">Contributions</div>
+                </div>
+
+                <div class="github-stats metric-card p-6 rounded-lg text-center">
+                    <svg class="w-12 h-12 mx-auto mb-4 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                    </svg>
+                    <div class="text-3xl font-headline font-bold text-secondary mb-2">1,200+</div>
+                    <div class="font-body text-sm text-text-secondary">Stars Earned</div>
+                </div>
+
+                <div class="github-stats metric-card p-6 rounded-lg text-center">
+                    <svg class="w-12 h-12 mx-auto mb-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path>
+                    </svg>
+                    <div class="text-3xl font-headline font-bold text-accent mb-2">450+</div>
+                    <div class="font-body text-sm text-text-secondary">Pull Requests</div>
+                </div>
+
+                <div class="github-stats metric-card p-6 rounded-lg text-center">
+                    <svg class="w-12 h-12 mx-auto mb-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                    </svg>
+                    <div class="text-3xl font-headline font-bold text-primary mb-2">300+</div>
+                    <div class="font-body text-sm text-text-secondary">Followers</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20">
+        <div class="container mx-auto px-6">
+            <div class="card-cyberpunk p-12 text-center max-w-4xl mx-auto">
+                <h2 class="font-headline text-3xl md:text-4xl font-bold text-gradient-primary mb-4">
+                    Ready to Build Something Amazing?
+                </h2>
+                <p class="font-body text-lg text-text-secondary mb-8 max-w-2xl mx-auto">
+                    Let's collaborate on your next project. I bring technical expertise, creative vision, and a commitment to excellence.
+                </p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="contact_terminal.html" class="btn-primary inline-flex items-center gap-2">
+                        <span>Start a Project</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                        </svg>
+                    </a>
+                    <a href="resume_vault.html" class="btn-outline inline-flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        <span>Download Resume</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox">
+        <button id="close-lightbox" class="absolute top-8 right-8 text-text-primary hover:text-primary transition-colors z-10" aria-label="Close lightbox">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+        <div class="lightbox-content">
+            <img id="lightbox-image" src="" alt="Project preview in fullscreen lightbox view" class="max-w-full max-h-full rounded-lg">
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-surface border-t border-surface-light py-8">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                <p class="font-body text-sm text-text-tertiary">© 2025 NeonDev. All Rights Reserved.</p>
+                <div class="flex items-center gap-6">
+                    <a href="javascript:void(0)" class="font-body text-sm text-text-tertiary hover:text-primary transition-colors">Privacy Policy</a>
+                    <a href="javascript:void(0)" class="font-body text-sm text-text-tertiary hover:text-primary transition-colors">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 100) {
+                navbar.classList.add('shadow-lg');
+            } else {
+                navbar.classList.remove('shadow-lg');
+            }
+        });
+
+        // Filter functionality
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const projectCards = document.querySelectorAll('.project-card');
+        const searchInput = document.getElementById('search-input');
+        const resetFiltersBtn = document.getElementById('reset-filters');
+        const clearFiltersBtn = document.getElementById('clear-filters');
+        const emptyState = document.getElementById('empty-state');
+        const projectsGrid = document.getElementById('projects-grid');
+
+        let activeFilter = 'all';
+        let searchTerm = '';
+
+        function filterProjects() {
+            let visibleCount = 0;
+
+            projectCards.forEach(card => {
+                const categories = card.dataset.category.split(' ');
+                const title = card.querySelector('h3').textContent.toLowerCase();
+                const description = card.querySelector('p').textContent.toLowerCase();
+
+                const matchesFilter = activeFilter === 'all' || categories.includes(activeFilter);
+                const matchesSearch = searchTerm === '' ||
+                                    title.includes(searchTerm.toLowerCase()) ||
+                                    description.includes(searchTerm.toLowerCase());
+
+                if (matchesFilter && matchesSearch) {
+                    card.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Show/hide empty state
+            if (visibleCount === 0) {
+                projectsGrid.classList.add('hidden');
+                emptyState.classList.remove('hidden');
+            } else {
+                projectsGrid.classList.remove('hidden');
+                emptyState.classList.add('hidden');
+            }
+        }
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                activeFilter = btn.dataset.filter;
+                filterProjects();
+            });
+        });
+
+        searchInput.addEventListener('input', (e) => {
+            searchTerm = e.target.value;
+            filterProjects();
+        });
+
+        function resetFilters() {
+            activeFilter = 'all';
+            searchTerm = '';
+            searchInput.value = '';
+            filterBtns.forEach(b => b.classList.remove('active'));
+            filterBtns[0].classList.add('active');
+            filterProjects();
+        }
+
+        resetFiltersBtn.addEventListener('click', resetFilters);
+        clearFiltersBtn.addEventListener('click', resetFilters);
+
+        // Expand/collapse project details
+        document.querySelectorAll('.expand-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const card = btn.closest('.project-card');
+                const expandedContent = card.querySelector('.project-expanded');
+
+                expandedContent.classList.toggle('active');
+                btn.textContent = expandedContent.classList.contains('active') ? 'Hide Details' : 'View Details';
+            });
+        });
+
+        // Lightbox functionality
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImage = document.getElementById('lightbox-image');
+        const closeLightboxBtn = document.getElementById('close-lightbox');
+
+        document.querySelectorAll('.project-image-container img').forEach(img => {
+            img.addEventListener('click', () => {
+                lightboxImage.src = img.src;
+                lightboxImage.alt = img.alt;
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        closeLightboxBtn.addEventListener('click', () => {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                lightbox.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Keyboard navigation for lightbox
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+                lightbox.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Animate performance bars on scroll
+        const observerOptions = {
+            threshold: 0.5,
+            rootMargin: '0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const fills = entry.target.querySelectorAll('.performance-fill');
+                    fills.forEach(fill => {
+                        const width = fill.style.width;
+                        fill.style.width = '0';
+                        setTimeout(() => {
+                            fill.style.width = width;
+                        }, 100);
+                    });
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.project-expanded').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+<script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
+</body>
+</html>

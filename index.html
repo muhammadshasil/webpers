@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeonDev Portfolio</title>
+    <link rel="stylesheet" href="css/main.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #0a0a0a, #1a1a2e, #16213e);
+            color: #00ff88;
+            font-family: 'Courier New', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .loading-container {
+            text-align: center;
+            position: relative;
+        }
+
+        .neon-title {
+            font-size: 3rem;
+            font-weight: bold;
+            text-shadow:
+                0 0 5px #00ff88,
+                0 0 10px #00ff88,
+                0 0 15px #00ff88,
+                0 0 20px #00ff88;
+            margin-bottom: 2rem;
+            animation: pulse 2s infinite;
+        }
+
+        .loading-text {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+
+        .progress-bar {
+            width: 300px;
+            height: 4px;
+            background: rgba(0, 255, 136, 0.2);
+            border-radius: 2px;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00ff88, #00ccff);
+            width: 0%;
+            animation: loading 3s ease-in-out forwards;
+            box-shadow: 0 0 10px #00ff88;
+        }
+
+        .terminal-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.2rem;
+            background: #00ff88;
+            animation: blink 1s infinite;
+            margin-left: 5px;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        @keyframes loading {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .fade-out {
+            animation: fadeOut 0.5s ease-out forwards;
+        }
+
+        @keyframes fadeOut {
+            to { opacity: 0; }
+        }
+    </style>
+  <script type="module" async src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fneondevpo4985back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.12"></script>
+  <script type="module" defer src="https://static.rocket.new/rocket-shot.js?v=0.0.2"></script>
+  </head>
+<body>
+    <div class="loading-container" id="loadingContainer">
+        <h1 class="neon-title">NeonDev</h1>
+        <div class="loading-text">Initializing Portfolio<span class="terminal-cursor"></span></div>
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+    </div>
+
+    <script>
+        // Simulate loading and redirect to hero landing page
+        setTimeout(() => {
+            const loadingContainer = document.getElementById('loadingContainer');
+            loadingContainer.classList.add('fade-out');
+
+            setTimeout(() => {
+                window.location.href = 'pages/hero_landing.html';
+            }, 500);
+        }, 3000);
+
+        // Update loading text dynamically
+        const loadingTexts = [
+            'Initializing Portfolio',
+            'Loading Components',
+            'Compiling Code',
+            'Launching Experience'
+        ];
+
+        let textIndex = 0;
+        const loadingTextElement = document.querySelector('.loading-text');
+
+        const updateText = () => {
+            if (textIndex < loadingTexts.length - 1) {
+                textIndex++;
+                loadingTextElement.innerHTML = loadingTexts[textIndex] + '<span class="terminal-cursor"></span>';
+            }
+        };
+
+        setTimeout(updateText, 800);
+        setTimeout(updateText, 1600);
+        setTimeout(updateText, 2400);
+    </script>
+<script id="dhws-dataInjector" src="/public/dhws-data-injector.js"></script>
+</body>
+</html>
